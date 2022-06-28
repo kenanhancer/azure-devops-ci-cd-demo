@@ -1,4 +1,5 @@
 jobs:
   - job: MyJob
     steps:
+    - checkout: none
     - script: echo My first job

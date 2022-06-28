@@ -3,6 +3,7 @@ stages:
     jobs:
     - job: MyJob
       steps:
+      - checkout: none
       - script: echo My first job
   
   - stage: Stage_B
@@ -10,6 +11,7 @@ stages:
     jobs:
     - job: MyJob2
       steps:
+      - checkout: none
       - script: echo My Second job
 
   - stage: Stage_C
@@ -17,4 +19,5 @@ stages:
     jobs:
     - job: MyJob3
       steps:
+      - checkout: none
       - script: echo My Third job
