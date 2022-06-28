@@ -1,6 +1,6 @@
 variables:
 - template: pipeline-templates/variables/build.yml  # Template reference
-pool:
-  vmImage: ${{ variables.vmImage }}
+# pool:
+#   vmImage: ${{ variables.vmImage }}
 steps:
 - script: echo ${{ variables.arch }} ${{ variables.config }}
