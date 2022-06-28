@@ -1,0 +1,12 @@
+stages:
+  - stage: Stage A
+    jobs:
+    - job: MyJob
+      steps:
+      - script: echo My first job
+  
+  - stage: Stage B
+    jobs:
+    - job: MyJob2
+      steps:
+      - script: echo My Second job
