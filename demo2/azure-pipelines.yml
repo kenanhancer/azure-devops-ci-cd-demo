@@ -6,7 +6,15 @@ stages:
       - script: echo My first job
   
   - stage: Stage_B
+    dependsOn: Stage_A
     jobs:
     - job: MyJob2
       steps:
       - script: echo My Second job
+
+  - stage: Stage_C
+    dependsOn: Stage_B
+    jobs:
+    - job: MyJob3
+      steps:
+      - script: echo My Third job
