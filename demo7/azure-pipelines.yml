@@ -8,11 +8,11 @@ jobs:
 - job: PreWork
   steps:
   - checkout: none
-  
+
   - script: "Do pre-work"
 
 - job: PostWork
-  pool: windows-latest
+  pool: windows-2019
   steps:
   - checkout: none
 
