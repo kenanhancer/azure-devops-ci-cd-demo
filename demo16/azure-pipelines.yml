@@ -1,5 +1,5 @@
 variables:
-  - template: pipeline-templates/variables/build.yml  # Template reference
+- template: pipeline-templates/variables/build.yml  # Template reference
 pool:
   vmImage: ${{ variables.vmImage }}
 steps:
