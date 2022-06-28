@@ -9,10 +9,10 @@ jobs:
   steps:
   - checkout: none
 
-  - script: "Do pre-work"
+  - script: echo "Do pre-work"
 
 - job: PostWork
   steps:
   - checkout: none
 
-  - script: "Do post-work using a different hosted image"
+  - script: echo "Do post-work using a different hosted image"
