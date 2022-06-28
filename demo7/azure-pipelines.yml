@@ -12,7 +12,6 @@ jobs:
   - script: "Do pre-work"
 
 - job: PostWork
-  pool: ubuntu-latest
   steps:
   - checkout: none
 
