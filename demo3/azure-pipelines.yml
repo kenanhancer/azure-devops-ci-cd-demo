@@ -1,3 +1,6 @@
+# Single-stage YAML
+# You can provide a list of jobs to define a pipeline with a single implicit stage
+
 jobs:
   - job: MyJob
     steps:

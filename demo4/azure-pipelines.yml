@@ -1,3 +1,6 @@
+# Single-stage and Single-job YAML
+# You can provide a list of steps to define a pipeline with a single implicit stage and job
+
 steps:
 - checkout: none
 - script: echo My first job

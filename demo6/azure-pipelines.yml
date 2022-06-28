@@ -1,0 +1,32 @@
+# This example runs two stages in parallel.
+
+stages:
+  - stage: BuildWin
+    displayName: Build for Windows
+  - stage: BuildLinux
+    displayName: Build for Linux
+    dependsOn: [] # by specifying an empty array, this stage doesn't depend on the stage before it
+  - stage: TestOnWindows
+    dependsOn: BuildWin
+    jobs:
+    - job: TestOnWindows
+      steps:
+      - script: echo Testing on Windows!
+  - stage: TestOnLinux
+    dependsOn: BuildMac
+    jobs:
+    - job: TestOnLinux
+      steps:
+      - script: echo Testing on Linux!
+  - stage: DeployWindows
+    dependsOn: TestOnWindows
+    jobs:
+    - job: Deploy
+      steps:
+      - script: echo Deploying the code to Windows!
+  - stage: DeployLinux
+    dependsOn: TestOnLinux
+    jobs:
+    - job: Deploy
+      steps:
+      - script: echo Deploying the code to Linux!
