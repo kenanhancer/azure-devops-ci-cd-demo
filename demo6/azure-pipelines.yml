@@ -21,7 +21,7 @@ stages:
       steps:
       - script: echo Testing on Windows!
   - stage: TestOnLinux
-    dependsOn: BuildMac
+    dependsOn: BuildLinux
     jobs:
     - job: TestOnLinux
       steps:
