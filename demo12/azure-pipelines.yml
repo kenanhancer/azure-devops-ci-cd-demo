@@ -1,0 +1,10 @@
+stages:
+  - template: pipeline-templates/stages/test.yml  # Template reference
+    parameters:
+      name: Mini
+      testFile: pipeline-templates/tests/miniSuite.js
+  
+  - template: pipeline-templates/stages/test.yml  # Template reference
+    parameters:
+      name: Full
+      testFile: pipeline-templates/tests/fullSuite.js

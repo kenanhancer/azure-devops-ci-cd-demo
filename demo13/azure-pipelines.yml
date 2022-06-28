@@ -1,0 +1,23 @@
+resources:
+  containers:
+  - container: python
+    image: python:3.8
+  - container: node
+    image: node:13.2
+
+jobs:
+- job: example
+  container: python
+
+  steps:
+  - checkout: none
+
+  - script: echo Running in the job container
+
+  - script: echo Running on the host
+    target: host
+
+  - script: echo Running in another container, in restricted commands mode
+    target:
+      container: node
+      commands: restricted

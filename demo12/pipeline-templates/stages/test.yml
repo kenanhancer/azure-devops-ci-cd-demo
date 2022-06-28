@@ -1,0 +1,26 @@
+parameters:
+  name: ''
+  testFile: ''
+
+stages:
+- stage: Test_${{ parameters.name }}
+  jobs:
+  - job: ${{ parameters.name }}_Windows
+    pool:
+      vmImage: windows-latest
+    steps:
+    - checkout: none
+
+    - script: npm install
+
+    - script: npm test -- --file=${{ parameters.testFile }}
+
+  - job: ${{ parameters.name }}_Mac
+    pool:
+      vmImage: macos-latest
+    steps:
+    - checkout: none
+    
+    - script: npm install
+
+    - script: npm test -- --file=${{ parameters.testFile }}

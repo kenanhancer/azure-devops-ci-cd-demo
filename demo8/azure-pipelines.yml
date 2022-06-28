@@ -1,0 +1,10 @@
+trigger:
+  - main
+  
+pool: 
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: none
+
+- script: "Hello world!"

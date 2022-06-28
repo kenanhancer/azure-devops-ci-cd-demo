@@ -6,20 +6,27 @@ stages:
     - job: BuildJob
       steps:
       - checkout: none
+
       - script: echo Building!
+
   - stage: Test
     jobs:
     - job: TestOnWindows
       steps:
       - checkout: none
+
       - script: echo Testing on Windows!
+
     - job: TestOnLinux
       steps:
       - checkout: none
+
       - script: echo Testing on Linux!
+
   - stage: Deploy
     jobs:
     - job: Deploy
       steps:
       - checkout: none
+      
       - script: echo Deploying the code!

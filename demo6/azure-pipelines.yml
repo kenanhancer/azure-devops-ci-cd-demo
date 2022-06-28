@@ -7,7 +7,9 @@ stages:
       - job: Build
         steps:
         - checkout: none
+
         - script: echo Building in Windows!
+
   - stage: BuildLinux
     displayName: Build for Linux
     dependsOn: [] # by specifying an empty array, this stage doesn't depend on the stage before it
@@ -15,32 +17,41 @@ stages:
       - job: Build
         steps:
         - checkout: none
+
         - script: echo Building in Linux!
+
   - stage: TestOnWindows
     dependsOn: BuildWin
     jobs:
     - job: TestOnWindows
       steps:
       - checkout: none
+
       - script: echo Testing on Windows!
+
   - stage: TestOnLinux
     dependsOn: BuildLinux
     jobs:
     - job: TestOnLinux
       steps:
       - checkout: none
+
       - script: echo Testing on Linux!
+
   - stage: DeployWindows
     dependsOn: TestOnWindows
     jobs:
     - job: Deploy
       steps:
       - checkout: none
+
       - script: echo Deploying the code to Windows!
+
   - stage: DeployLinux
     dependsOn: TestOnLinux
     jobs:
     - job: Deploy
       steps:
       - checkout: none
+      
       - script: echo Deploying the code to Linux!

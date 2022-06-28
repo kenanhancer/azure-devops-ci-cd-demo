@@ -1,0 +1,17 @@
+parameters:
+  name: ''
+  pool: ''
+  sign: false
+
+jobs:
+- job: ${{ parameters.name }}
+  pool: ${{ parameters.pool }}
+  steps:
+  - checkout: none
+
+  - script: npm install
+  
+  - script: npm test
+  
+  - ${{ if eq(parameters.sign, 'true') }}:
+    - script: sign
