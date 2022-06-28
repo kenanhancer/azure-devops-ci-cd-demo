@@ -3,9 +3,17 @@
 stages:
   - stage: BuildWin
     displayName: Build for Windows
+    jobs:
+      - job: Build
+        steps:
+        - script: echo Building in Windows!
   - stage: BuildLinux
     displayName: Build for Linux
     dependsOn: [] # by specifying an empty array, this stage doesn't depend on the stage before it
+    jobs:
+      - job: Build
+        steps:
+        - script: echo Building in Linux!
   - stage: TestOnWindows
     dependsOn: BuildWin
     jobs:
