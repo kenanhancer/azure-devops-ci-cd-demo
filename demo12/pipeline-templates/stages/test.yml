@@ -11,9 +11,9 @@ stages:
     steps:
     - checkout: none
 
-    - script: npm install
+    - script: echo "npm install"
 
-    - script: npm test -- --file=${{ parameters.testFile }}
+    - script: echo "npm test -- --file=${{ parameters.testFile }}"
 
   - job: ${{ parameters.name }}_Mac
     pool:
@@ -21,6 +21,6 @@ stages:
     steps:
     - checkout: none
     
-    - script: npm install
+    - script: echo "npm install"
 
-    - script: npm test -- --file=${{ parameters.testFile }}
+    - script: echo "npm test -- --file=${{ parameters.testFile }}"

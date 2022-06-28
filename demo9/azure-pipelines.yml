@@ -11,12 +11,12 @@ stages:
     steps:
     - checkout: none
 
-    - script: "Do CI work"
+    - script: echo "Do CI work"
 
 - stage: Test
   jobs:
   - job: TestWork
     steps:
     - checkout: none
-    
-    - script: "Do test work"
+
+    - script: echo "Do test work"

@@ -9,9 +9,9 @@ jobs:
   steps:
   - checkout: none
 
-  - script: npm install
+  - script: echo "npm install"
   
-  - script: npm test
+  - script: echo "npm test"
   
   - ${{ if eq(parameters.sign, 'true') }}:
-    - script: sign
+    - script: echo "sign"
