@@ -6,7 +6,6 @@ stages:
       - script: echo My first job
   
   - stage: Stage_B
-    dependsOn: Stage_A
     jobs:
     - job: MyJob2
       steps:
