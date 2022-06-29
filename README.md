@@ -181,4 +181,145 @@ Find more details for [Step types](https://docs.microsoft.com/en-us/azure/devops
 ## Shared Properties in YAML
 Notice that 15 properties are shared in **stages**, **jobs** and **steps**. Because, even we don't have **stages** explicitly in YAML file, one **stage** will be created implicitly. In addition to this, if we don't have **jobs** as well, then one **stage** and one **job** will be created implicitly.
 
-![alt text](devops_image1.png)
+![alt text](images/devops_image1.png)
+
+## Create Personal Access Token(PAT) in Azure DevOps Portal
+
+Sign in to your organisation (https://dev.azure.com/{yourorganization})
+
+Select Organization from Azure DevOps Portal firstly, then create Personal Access Token for it.
+
+![alt text](images/devops_image3.png)
+![alt text](images/devops_image4.png)
+![alt text](images/devops_image5.png)
+![alt text](images/devops_image6.png)
+
+## Test your Personal Access Token(PAT)
+find more details about Azure DevOps in [Projects REST API](https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-6.0)
+
+I will call Azure DevOps REST API to test so that i called the following url to list all the projects under your organization.
+
+https://dev.azure.com/<your_organization_name>/_apis/projects?api-version=6.0
+
+find more details in [creating Personal Access Token](https://kenanhancer.com/2022/06/29/azure-devops-creating-personal-access-token-pat/)
+### First way
+username is not necessary when you use Personal Access Token(PAT) but don't forget to use **:** sign before Personal Access Token(PAT).
+```bash
+curl -u <your_user_name>:<your_personal_access_token> 'https://dev.azure.com/<your_organization_name>/_apis/projects?api-version=6.0'
+```
+
+### Second way
+```bash
+TOKEN=$(echo -n "<your_user_name>:<your_personal_access_token>" | base64)
+
+curl --header "Authorization: Basic $TOKEN" 'https://dev.azure.com/<your_organization_name>/_apis/projects?api-version=6.0'
+```
+
+### Third way
+```bash
+echo -n "<your_user_name>:<your_personal_access_token>" | base64 | read TOKEN; curl --header "Authorization: Basic $TOKEN" 'https://dev.azure.com/<your_organization_name>/_apis/projects?api-version=6.0'
+```
+
+## Azure DevOps REST API
+
+### List processes in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes?api-version=6.0" | jq .
+```
+
+### List projects in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects?api-version=6.0" | jq .
+```
+
+### Get project id in your organization
+```bash
+ORGANIZATION=$1
+
+PROJECT_NAME=$2
+
+PAT=$3
+
+PROJECT_ID=$(curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects?api-version=6.0" | jq -r '.value[] | select(.name=="'$PROJECT_NAME'") | .id')
+
+echo "$PROJECT_ID"
+```
+
+### Get project in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Project Name: " && read PROJECT_NAME
+
+echo -n "PAT: " && read PAT
+
+PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq .
+```
+
+### Get project properties in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Project Name: " && read PROJECT_NAME
+
+echo -n "PAT: " && read PAT
+
+PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID/properties?api-version=6.0-preview.1" | jq .
+```
+
+### Delete project in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "ProjectID: " && read PROJECT_ID
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request DELETE "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq .
+```
+
+### Create project in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Project Name: " && read PROJECT_NAME
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request POST "https://dev.azure.com/$ORGANIZATION/_apis/projects?api-version=6.0" \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "'"$PROJECT_NAME"'",
+    "description": "Frabrikam travel app for Windows Phone",
+    "visibility": "private",
+    "capabilities": {
+        "versioncontrol": {
+            "sourceControlType": "Git"
+        },
+        "processTemplate": {
+            "templateTypeId": "adcc42ab-9882-485e-a3ed-7678f01f66bc"
+        }
+    }
+}' | jq .
+```
+
+### 

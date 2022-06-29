@@ -1,0 +1,13 @@
+{
+    "folder": null,
+    "name": "pipeline-made-by-api",
+    "configuration": {
+        "type": "yaml",
+        "path": "/azure-pipelines.yml",
+        "repository": {
+            "id": "941eabc5-25f0-4151-a657-dfb5de7c5c2d",
+            "name": "Kenanhancer-github",
+            "type": "azureReposGit"
+        }
+    }
+}
