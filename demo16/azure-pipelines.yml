@@ -1,6 +1,8 @@
 variables:
 - template: pipeline-templates/variables/build.yml  # Template reference
-# pool:
-#   vmImage: ${{ variables.vmImage }}
+- name: img
+  value: ubuntu-latest
+pool:
+  vmImage: ${{ variables.img }}
 steps:
 - script: echo ${{ variables.arch }} ${{ variables.config }}
