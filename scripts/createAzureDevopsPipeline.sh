@@ -1,3 +1,26 @@
 #!/bin/bash
 
-curl --user :65qyvduqy5smbo4svkeh6j6fr22qbf4wwgzjmwtmayia7mwoarra --header "Content-Type: application/json" --header "Accept:application/json" "https://dev.azure.com/kenanhancer/sandbox/_apis/pipelines?api-version=6.1-preview.1" -d @makepipeline.json
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Project Name: " && read PROJECT_NAME
+
+echo -n "Pipeline Name: " && read PIPELINE_NAME
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request POST "https://dev.azure.com/$ORGANIZATION/$PROJECT_NAME/_apis/pipelines?api-version=6.1-preview.1" \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "folder": null,
+    "name": "'"$PIPELINE_NAME"'",
+    "configuration": {
+        "type": "yaml",
+        "path": "/azure-pipelines.yml",
+        "repository": {
+            "id": "941eabc5-25f0-4151-a657-dfb5de7c5c2d",
+            "name": "Kenanhancer-github",
+            "type": "azureReposGit"
+        }
+    }
+}' | jq -r .
