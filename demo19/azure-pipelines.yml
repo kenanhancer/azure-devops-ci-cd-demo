@@ -1,0 +1,10 @@
+trigger:
+  - master
+
+pool: 
+  vmImage: ubuntu-latest
+
+stages:
+- template: pipeline-templates/stages/ci.yml
+
+- template: pipeline-templates/stages/cd.yml

@@ -1,0 +1,16 @@
+trigger:
+  - master
+
+pool: 
+  vmImage: ubuntu-latest
+
+stages:
+- template: pipeline-templates/stages/ci.yml
+
+- template: pipeline-templates/stages/cd-dev.yml
+
+- template: pipeline-templates/stages/cd-uat.yml
+
+- template: pipeline-templates/stages/cd-preprod.yml
+
+- template: pipeline-templates/stages/cd-prod.yml
