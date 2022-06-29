@@ -229,7 +229,33 @@ echo -n "Organization: " && read ORGANIZATION
 echo -n "PAT: " && read PAT
 
 curl --silent --user :$PAT \
---request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes?api-version=6.0" | jq .
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes?api-version=6.0" | jq -r .
+```
+
+### Get process id in your organization
+```bash
+ORGANIZATION=$1
+
+PROCESS_NAME=$2
+
+PAT=$3
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes?api-version=6.0" | jq -r '.value[] | select(.name=="'$PROCESS_NAME'") | .id'
+```
+
+### Get process in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Process Name: " && read PROCESS_NAME
+
+echo -n "PAT: " && read PAT
+
+PROCESS_ID=$(. ./processes/getProcessId.sh $ORGANIZATION $PROCESS_NAME $PAT)
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes/$PROCESS_ID?api-version=6.0" | jq -r .
 ```
 
 ### List projects in your organization
@@ -239,7 +265,7 @@ echo -n "Organization: " && read ORGANIZATION
 echo -n "PAT: " && read PAT
 
 curl --silent --user :$PAT \
---request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects?api-version=6.0" | jq .
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects?api-version=6.0" | jq -r .
 ```
 
 ### Get project id in your organization
@@ -267,7 +293,7 @@ echo -n "PAT: " && read PAT
 PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
 
 curl --silent --user :$PAT \
---request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq .
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq -r .
 ```
 
 ### Get project properties in your organization
@@ -281,7 +307,7 @@ echo -n "PAT: " && read PAT
 PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
 
 curl --silent --user :$PAT \
---request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID/properties?api-version=6.0-preview.1" | jq .
+--request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID/properties?api-version=6.0-preview.1" | jq -r .
 ```
 
 ### Delete project in your organization
@@ -293,7 +319,7 @@ echo -n "ProjectID: " && read PROJECT_ID
 echo -n "PAT: " && read PAT
 
 curl --silent --user :$PAT \
---request DELETE "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq .
+--request DELETE "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq -r .
 ```
 
 ### Create project in your organization
@@ -319,7 +345,5 @@ curl --silent --user :$PAT \
             "templateTypeId": "adcc42ab-9882-485e-a3ed-7678f01f66bc"
         }
     }
-}' | jq .
+}' | jq -r .
 ```
-
-### 
