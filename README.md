@@ -222,6 +222,10 @@ echo -n "<your_user_name>:<your_personal_access_token>" | base64 | read TOKEN; c
 
 ## Azure DevOps REST API
 
+When we need to create, retrieve, update or delete access to the Azure DevOps services's resources, we can use Azure DevOps REST API.
+
+Find more Azure DevOps REST services in [https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.1]([https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.1)
+
 ### List processes in your organization
 ```bash
 echo -n "Organization: " && read ORGANIZATION
@@ -252,7 +256,7 @@ echo -n "Process Name: " && read PROCESS_NAME
 
 echo -n "PAT: " && read PAT
 
-PROCESS_ID=$(. ./processes/getProcessId.sh $ORGANIZATION $PROCESS_NAME $PAT)
+PROCESS_ID=$(. ./getProcessId.sh $ORGANIZATION $PROCESS_NAME $PAT)
 
 curl --silent --user :$PAT \
 --request GET "https://dev.azure.com/$ORGANIZATION/_apis/process/processes/$PROCESS_ID?api-version=6.0" | jq -r .
@@ -290,7 +294,7 @@ echo -n "Project Name: " && read PROJECT_NAME
 
 echo -n "PAT: " && read PAT
 
-PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
+PROJECT_ID=$(. ./getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
 
 curl --silent --user :$PAT \
 --request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID?api-version=6.0" | jq -r .
@@ -304,7 +308,7 @@ echo -n "Project Name: " && read PROJECT_NAME
 
 echo -n "PAT: " && read PAT
 
-PROJECT_ID=$(. ./projects/getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
+PROJECT_ID=$(. ./getProjectId.sh $ORGANIZATION $PROJECT_NAME $PAT)
 
 curl --silent --user :$PAT \
 --request GET "https://dev.azure.com/$ORGANIZATION/_apis/projects/$PROJECT_ID/properties?api-version=6.0-preview.1" | jq -r .
@@ -346,4 +350,16 @@ curl --silent --user :$PAT \
         }
     }
 }' | jq -r .
+```
+
+### List pipelines in your organization
+```bash
+echo -n "Organization: " && read ORGANIZATION
+
+echo -n "Project Id or Project Name: " && read PROJECT_ID_NAME
+
+echo -n "PAT: " && read PAT
+
+curl --silent --user :$PAT \
+--request GET "https://dev.azure.com/$ORGANIZATION/$PROJECT_ID_NAME/_apis/pipelines?api-version=7.1-preview.1" | jq -r .
 ```
